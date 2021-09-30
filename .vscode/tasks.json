@@ -13,7 +13,30 @@
 				"`pkg-config",
 				"gtkmm-3.0",
 				"--cflags",
-				"--libs`",
+				"--libs`"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: /usr/bin/g++"
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: clang++ build active file",
+			"command": "/usr/bin/clang++",
+			"args": [
+				"-g",
+				"${workspaceFolder}/*.cpp",
+				"-o",
+				"${workspaceFolder}/main",
+				"`pkg-config",
+				"gtkmm-3.0",
+				"--cflags",
+				"--libs`"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -25,7 +48,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: /usr/bin/g++"
+			"detail": "compiler: /usr/bin/clang++"
 		}
 	]
 }

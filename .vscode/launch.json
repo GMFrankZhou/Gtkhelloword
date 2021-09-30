@@ -23,9 +23,8 @@
                 }
             ]
         },
-
         {
-            "name": "g++ - Build and debug active file",
+            "name": "lldb Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main",
