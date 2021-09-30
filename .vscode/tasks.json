@@ -9,10 +9,14 @@
 				"-g",
 				"${workspaceFolder}/*.cpp",
 				"-o",
-				"${workspaceFolder}/main"
+				"${workspaceFolder}/main",
+				"`pkg-config",
+				"gtkmm-3.0",
+				"--cflags",
+				"--libs`",
 			],
 			"options": {
-				"cwd": "${fileDirname}"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [
 				"$gcc"
