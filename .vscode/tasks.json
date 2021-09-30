@@ -7,6 +7,7 @@
 			"command": "/usr/bin/g++",
 			"args": [
 				"-g",
+				"-std=c++11",
 				"${workspaceFolder}/*.cpp",
 				"-o",
 				"${workspaceFolder}/main",
@@ -30,6 +31,7 @@
 			"command": "/usr/bin/clang++",
 			"args": [
 				"-g",
+				"-std=c++11",
 				"${workspaceFolder}/*.cpp",
 				"-o",
 				"${workspaceFolder}/main",
