@@ -1,9 +1,10 @@
 #include "Hwwindow.h"
 #include <gtkmm/application.h>
 
-int main(int argc, char *argv[])
+int main()
 {
-    Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc,argv, "org.gtkmm.example");
+    auto app = Gtk::Application::create();
     Hwwindow hww;
     return app->run(hww);
+
 }
