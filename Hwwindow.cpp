@@ -11,7 +11,6 @@ Hwwindow::Hwwindow():m_button("Hello World!")
     add(m_button);
     m_button.show();
     this->set_title("asdgasga");
-    present();
 }
 
 Hwwindow::~Hwwindow()
