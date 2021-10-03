@@ -1,9 +1,9 @@
 #ifndef _HWW_
 #define _HWW_
 #include <gtkmm/button.h>
-#include <gtkmm/window.h>
+#include <gtkmm/applicationwindow.h>
 
-class Hwwindow:public Gtk::Window
+class Hwwindow:public Gtk::ApplicationWindow
 {
     public:
         Hwwindow();
