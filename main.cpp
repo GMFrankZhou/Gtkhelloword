@@ -3,7 +3,7 @@
 
 int main()
 {
-    auto app = Gtk::Application::create();
+    auto app = Gtk::Application::create("zhou.jiahong.helloworld");
     Hwwindow hww;
     return app->run(hww);
 

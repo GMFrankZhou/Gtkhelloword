@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+    <!-- n-columns=3 n-rows=1 -->
+    <object class="GtkGrid" id="maingrid">
+      <property name="visible">True</property>
+      <property name="can-focus">False</property>
+      <child>
+        <object class="GtkButton" id="m_button_1">
+          <property name="label" translatable="yes">button</property>
+          <property name="visible">True</property>
+          <property name="can-focus">True</property>
+          <property name="receives-default">True</property>
+        </object>
+        <packing>
+          <property name="left-attach">0</property>
+          <property name="top-attach">0</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkLabel" id="m_label_1">
+          <property name="visible">True</property>
+          <property name="can-focus">False</property>
+          <property name="label" translatable="yes">label</property>
+        </object>
+        <packing>
+          <property name="left-attach">2</property>
+          <property name="top-attach">0</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkEntry" id="m_entry_1">
+          <property name="visible">True</property>
+          <property name="can-focus">True</property>
+        </object>
+        <packing>
+          <property name="left-attach">1</property>
+          <property name="top-attach">0</property>
+        </packing>
+      </child>
+    </object>
+</interface>
