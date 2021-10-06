@@ -1,0 +1,8 @@
+<!-- use glib-compile-resources generate-source resources.xml -->
+
+<gresources>
+    <gresource prefix="/unique/prefix/">
+        <!-- text files such as XML can be compressed to save memory -->
+        <file compressed="true">ui-mainwindow.glade</file>
+    </gresource>
+</gresources>

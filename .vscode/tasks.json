@@ -9,6 +9,7 @@
 				"-g",
 				"-std=c++11",
 				"${workspaceFolder}/*.cpp",
+				"${workspaceFolder}/resources.c",
 				"-o",
 				"${workspaceFolder}/main",
 				"`pkg-config",
