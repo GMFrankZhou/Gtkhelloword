@@ -1,4 +1,4 @@
-#include "Hwwindow.h"
+#include "hwwindow.h"
 #include <gtkmm/application.h>
 
 int main()
