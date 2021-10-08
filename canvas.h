@@ -13,7 +13,7 @@ class Canvas : public Gtk::DrawingArea
         int get_maxh() const { return maxh; }
         int get_maxw() const { return maxw; }
 
-    private:
+    protected:
         int maxh,maxw;
         virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &);
         Hwwindow *parent;

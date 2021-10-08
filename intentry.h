@@ -11,9 +11,9 @@ class Intentry : public Gtk::Entry
     public:
         Intentry(BaseObjectType *, const Glib::RefPtr<Gtk::Builder> &, Hwwindow *);
         void validate_entry();
-        bool isint(std::string);
+        bool isint();
 
-    private:
+    protected:
         virtual bool on_focus_out_event(GdkEventFocus *event);
         Hwwindow *parent;
 };

@@ -7,9 +7,10 @@ Gtk::Entry(cobject),parent(p)
 {
 }
 
-bool Intentry::isint(std::string s)
+bool Intentry::isint()
 {
     int sp=1;
+    std::string s = get_text();
     if (!std::isdigit(s[0]) && s[0] != '-' && s[0] != '+')
         return false;
     if(s[0]=='-' || s[0]=='+')

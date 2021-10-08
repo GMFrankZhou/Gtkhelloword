@@ -1,5 +1,6 @@
 #include "hwwindow.h"
 #include <gtkmm/builder.h>
+#include <gtkmm/messagedialog.h>
 #include "canvas.h"
 #include <string>
 
@@ -33,8 +34,24 @@ Hwwindow::~Hwwindow()
 
 void Hwwindow::m_button_1_on_clicked()
 {
-    std::string s = m_entry_1->get_text();
+    if (!m_entry_1->isint() || !m_entry_2->isint())
+    {
+        Gtk::MessageDialog msg(*this, "X and Y must be integer values");
+        msg.run();
+        return;
+    }
+    int xx = std::stoi(m_entry_1->get_text());
+    int yy = std::stoi(m_entry_2->get_text());
+    if (xx<-m_drawing->get_maxw() || xx>=m_drawing->get_maxw() )
+    {
+        Gtk::MessageDialog msg(*this, "X value not in range");
+        msg.run();
+        return;
+    }
+    if (yy<-m_drawing->get_maxh() || yy>=m_drawing->get_maxh() )
+    {
+        Gtk::MessageDialog msg(*this, "Y value not in range");
+        msg.run();
+        return;
+    }
 }
-
-
-
