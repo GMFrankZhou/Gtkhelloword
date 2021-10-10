@@ -49,5 +49,5 @@ void Intentry::validate_entry()
 bool Intentry::on_focus_out_event(GdkEventFocus *event)
 {
     validate_entry();
-    return GDK_EVENT_PROPAGATE;
+    return false;
 }

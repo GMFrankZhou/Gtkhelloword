@@ -8,6 +8,8 @@
 #include "intentry.h"
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/applicationwindow.h>
+#include <gtkmm/listviewtext.h>
+#include <gtkmm/scrolledwindow.h>
 
 class Canvas;
 class Hwwindow : public Gtk::ApplicationWindow
@@ -21,12 +23,14 @@ class Hwwindow : public Gtk::ApplicationWindow
 
     private:
         void m_button_1_on_clicked();
+        void m_button_2_on_clicked();
         Gtk::Button *m_button_1;
         Gtk::Button *m_button_2;
         Intentry *m_entry_1;
         Intentry *m_entry_2;
-        Gtk::ListBox *m_listbox;
+        Gtk::ListViewText *m_listviewtext;
         Gtk::Box *m_mainbox;
+        Gtk::ScrolledWindow *m_scrolledwindow;
         Canvas *m_drawing;        
         Gtk::Label *m_label_1;
         Gtk::Label *m_label_2;

@@ -14,7 +14,7 @@ class Intentry : public Gtk::Entry
         bool isint();
 
     protected:
-        virtual bool on_focus_out_event(GdkEventFocus *event);
+        virtual bool on_focus_out_event(GdkEventFocus *event) override;
         Hwwindow *parent;
 };
 
