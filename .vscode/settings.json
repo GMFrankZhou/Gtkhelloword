@@ -77,6 +77,7 @@
         "complex": "cpp",
         "cstring": "cpp",
         "ios": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "fstream": "cpp"
     }
 }

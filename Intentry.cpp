@@ -7,7 +7,7 @@ Gtk::Entry(cobject),parent(p)
 {
 }
 
-bool Intentry::isint()
+bool Intentry::isint() const
 {
     int sp=1;
     std::string s = get_text();
@@ -50,4 +50,8 @@ bool Intentry::on_focus_out_event(GdkEventFocus *event)
 {
     validate_entry();
     return false;
+}
+int Intentry::get_integer() const
+{
+    return std::stoi(get_text());
 }

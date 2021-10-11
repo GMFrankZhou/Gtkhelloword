@@ -2,6 +2,7 @@
 #include <gtkmm/builder.h>
 #include <gtkmm/messagedialog.h>
 #include "canvas.h"
+#include "point.h"
 #include <string>
 
 #include <iostream>
@@ -46,37 +47,50 @@ Hwwindow::~Hwwindow()
     delete m_listviewtext;
 }
 
+void Hwwindow::errormsg::poperror() const
+{
+    Gtk::MessageDialog dlg(msg);
+    dlg.run();
+    return;
+}
+
+void Hwwindow::addpointtolist(const Point &p)
+{
+    int newrow=m_listviewtext->append(std::to_string(p.getx()));
+    m_listviewtext->set_text(newrow,1,std::to_string(p.gety()));
+    return;
+}
+
 void Hwwindow::m_button_1_on_clicked()
 {
-    if (!m_entry_1->isint() || !m_entry_2->isint())
+    int xx = m_entry_1->get_integer();
+    int yy = m_entry_2->get_integer();
+    try
     {
-        Gtk::MessageDialog msg(*this, "X and Y must be integer values");
-        msg.run();
+        if (!m_entry_1->isint() || !m_entry_2->isint())
+            throw errormsg("X and Y must be integer values");
+        if (xx<-m_drawing->get_maxw() || xx>=m_drawing->get_maxw())
+            throw errormsg("X value not in range");
+        if (yy<-m_drawing->get_maxh() || yy>=m_drawing->get_maxh())
+            throw errormsg("Y value not in range");
+    }
+    catch(const errormsg& e)
+    {
+        e.poperror();
         return;
     }
-    int xx = std::stoi(m_entry_1->get_text());
-    int yy = std::stoi(m_entry_2->get_text());
-    if (xx<-m_drawing->get_maxw() || xx>=m_drawing->get_maxw() )
-    {
-        Gtk::MessageDialog msg(*this, "X value not in range");
-        msg.run();
-        return;
-    }
-    if (yy<-m_drawing->get_maxh() || yy>=m_drawing->get_maxh() )
-    {
-        Gtk::MessageDialog msg(*this, "Y value not in range");
-        msg.run();
-        return;
-    }
-
-    int newrow=m_listviewtext->append(m_entry_1->get_text());
-    m_listviewtext->set_text(newrow, 1, m_entry_2->get_text());
+    addpointtolist(Point(xx, yy));
 }
 
 void Hwwindow::m_button_2_on_clicked()
 {
-   // m_listviewtext->get_selection()->get_selected();
-  // auto itr = m_listviewtext->get_selection()->get_selected();
-  // m_listviewtext->->get_selected().erase(m_listviewtext->get_selected().begin());
+
+    auto selected = m_listviewtext->get_selected();
+    if (!selected.empty())    {
+        std::cout << selected[0];
+        set_title(std::to_string(selected[0]));
+        }        //  Glib::RefPtr<Gtk::ListStore> ls = m_listviewtext->get_model()
+        //  auto it=ls->get_iter(std::to_string(selected[0]));
+        //  ls->erase(it);
 }
-//std::vector<int, std::allocator<int>>::iterator erase(Gtk::ListViewText::SelectionList::const_iterator __position)Y
+

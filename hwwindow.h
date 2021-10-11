@@ -10,8 +10,10 @@
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/listviewtext.h>
 #include <gtkmm/scrolledwindow.h>
+#include "point.h"
 
 class Canvas;
+
 class Hwwindow : public Gtk::ApplicationWindow
 {
     public:
@@ -19,7 +21,15 @@ class Hwwindow : public Gtk::ApplicationWindow
         virtual ~Hwwindow();
         Intentry *get_entry_1() const { return m_entry_1; }
         Intentry *get_entry_2() const { return m_entry_2; }
-
+        void addpointtolist(const Point &);
+        class errormsg
+        {
+            public:
+                errormsg(const std::string m): msg(m) {}
+                void poperror() const;
+            private:
+                std::string msg;
+        };
 
     private:
         void m_button_1_on_clicked();
