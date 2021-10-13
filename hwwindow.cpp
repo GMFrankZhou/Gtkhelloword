@@ -100,8 +100,9 @@ Gtk::TreeModel::iterator Hwwindow::getselectedpoint(Point &p) const
     {
         xx = (*selrow)[xcol];
         yy = (*selrow)[ycol];
+        p = Point(xx, yy);
     }
-    p = Point(xx, yy);
+    p = Point(0, 0);
     return selrow;
 }
 
