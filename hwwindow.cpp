@@ -21,14 +21,7 @@ Hwwindow::Hwwindow()
     builder->get_widget("m_label_2", m_label_2);
     builder->get_widget("m_scrolledwindow", m_scrolledwindow);
 
-    m_listviewtext = new Gtk::ListViewText(2);
-    m_listviewtext->set_column_title(0, " X ");
-    m_listviewtext->set_column_title(1, " Y ");
-    m_listviewtext->get_column(0)->set_fixed_width(200);
-    m_listviewtext->get_column(0)->set_alignment(0.5);
-    m_listviewtext->get_column(1)->set_alignment(0.5);
-    m_scrolledwindow->add(*m_listviewtext);
-    m_listviewtext->show();
+    setuplistbox();
 
     m_drawing = new Canvas(this);
     m_drawing->show();
@@ -41,10 +34,25 @@ Hwwindow::Hwwindow()
     set_title("Polygon");
 }
 
+void Hwwindow::setuplistbox()
+{
+    m_columns.add(xcol);
+    m_columns.add(ycol);
+    m_liststore = Gtk::ListStore::create(m_columns);
+    m_treeview = new Gtk::TreeView(m_liststore);
+    m_treeview->append_column("X", xcol);
+    m_treeview->append_column("Y", ycol);
+    m_treeview->get_column(0)->set_fixed_width(190);
+    m_treeview->get_column(0)->set_alignment(0.5);
+    m_treeview->get_column(1)->set_alignment(0.5);
+    m_scrolledwindow->add(*m_treeview);
+    m_treeview->show();
+}
+
 Hwwindow::~Hwwindow()
 {
     delete m_drawing;
-    delete m_listviewtext;
+    delete m_treeview;
 }
 
 void Hwwindow::errormsg::poperror() const
@@ -56,19 +64,21 @@ void Hwwindow::errormsg::poperror() const
 
 void Hwwindow::addpointtolist(const Point &p)
 {
-    int newrow=m_listviewtext->append(std::to_string(p.getx()));
-    m_listviewtext->set_text(newrow,1,std::to_string(p.gety()));
+    auto newrow = m_liststore->append();
+    (*newrow)[xcol]=p.getx();
+    (*newrow)[ycol]=p.gety();
     return;
 }
 
 void Hwwindow::m_button_1_on_clicked()
 {
-    int xx = m_entry_1->get_integer();
-    int yy = m_entry_2->get_integer();
+    int xx, yy;
     try
     {
         if (!m_entry_1->isint() || !m_entry_2->isint())
             throw errormsg("X and Y must be integer values");
+        xx = m_entry_1->get_integer();
+        yy = m_entry_2->get_integer();
         if (xx<-m_drawing->get_maxw() || xx>=m_drawing->get_maxw())
             throw errormsg("X value not in range");
         if (yy<-m_drawing->get_maxh() || yy>=m_drawing->get_maxh())
@@ -82,15 +92,25 @@ void Hwwindow::m_button_1_on_clicked()
     addpointtolist(Point(xx, yy));
 }
 
-void Hwwindow::m_button_2_on_clicked()
+Gtk::TreeModel::iterator Hwwindow::getselectedpoint(Point &p) const
 {
-
-    auto selected = m_listviewtext->get_selected();
-    if (!selected.empty())    {
-        std::cout << selected[0];
-        set_title(std::to_string(selected[0]));
-        }        //  Glib::RefPtr<Gtk::ListStore> ls = m_listviewtext->get_model()
-        //  auto it=ls->get_iter(std::to_string(selected[0]));
-        //  ls->erase(it);
+    int xx, yy;
+    auto selrow = m_treeview->get_selection()->get_selected();
+    if (selrow) 
+    {
+        xx = (*selrow)[xcol];
+        yy = (*selrow)[ycol];
+    }
+    p = Point(xx, yy);
+    return selrow;
 }
 
+void Hwwindow::m_button_2_on_clicked()
+{
+    Point p;
+    auto selrow = getselectedpoint(p);
+    if (selrow) {
+        m_liststore->erase(selrow);
+        set_title(std::to_string(p.getx()));
+    }
+}

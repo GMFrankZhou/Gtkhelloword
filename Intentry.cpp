@@ -11,6 +11,9 @@ bool Intentry::isint() const
 {
     int sp=1;
     std::string s = get_text();
+
+    if (s.length()==0)
+        return false;
     if (!std::isdigit(s[0]) && s[0] != '-' && s[0] != '+')
         return false;
     if(s[0]=='-' || s[0]=='+')
