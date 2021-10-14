@@ -26,6 +26,8 @@ class Pointset
         Pointset & append(const Line &);
         Polygon findboundary() const;
         void clear();
+        int maxx() const;
+        int maxy() const;
         bool has(const Point &) const;
         inline const Point * getpoint() const {return p_data;}
         inline int getcount() const {return count;}

@@ -14,12 +14,13 @@ class Canvas : public Gtk::DrawingArea
         int cy(const int);
         int get_maxh() const { return maxh; }
         int get_maxw() const { return maxw; }
+        int get_scale() const {return scale;}
         void redraw();
 
     protected:
         int maxh,maxw;
         void drawaxises(const Cairo::RefPtr<Cairo::Context> &);
-        void drawpoint(const Cairo::RefPtr<Cairo::Context> &, const Point &, const int);
+        void drawpoint(const Cairo::RefPtr<Cairo::Context> &, const Point &,const double,const double,const double,const int);
         void drawpoints(const Cairo::RefPtr<Cairo::Context> &);
         virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &);
         Hwwindow *parent;

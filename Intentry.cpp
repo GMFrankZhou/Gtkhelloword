@@ -5,6 +5,7 @@
 Intentry::Intentry(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder, Hwwindow *p): 
 Gtk::Entry(cobject),parent(p)
 {
+    set_activates_default(true);
 }
 
 bool Intentry::isint() const
@@ -29,6 +30,7 @@ bool Intentry::isint() const
             return false;
     }
     return true;
+
 }
 
 void Intentry::validate_entry()

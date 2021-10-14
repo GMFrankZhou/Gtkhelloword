@@ -3,6 +3,7 @@
 #include "point.h"
 #include "line.h"
 #include "polygon.h"
+#include <math.h>
 using namespace std;    
 
 
@@ -183,4 +184,29 @@ Polygon Pointset::findboundary() const
     Pointset ps=*this-p;
     Polygon pg=ps.findboundary()+p;
     return pg;
+}
+
+int Pointset::maxx() const
+{
+    int max=0;
+    int v;
+    for (int i = 0; i < count; i++)
+    {
+        v = abs(p_data[i].getx());
+        if (v > max)
+            max = v;
+    }
+    return max;
+}
+int Pointset::maxy() const
+{
+    int max=0;
+    int v;
+    for (int i = 0; i < count; i++)
+    {
+        v = abs(p_data[i].gety());
+        if (v > max)
+            max = v;
+    }
+    return max;
 }

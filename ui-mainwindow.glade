@@ -76,6 +76,7 @@
             <property name="label" translatable="yes">Add Point</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="can-default">True</property>
             <property name="receives-default">True</property>
           </object>
           <packing>
@@ -94,9 +95,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="shadow-type">in</property>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
               <packing>
                 <property name="expand">True</property>

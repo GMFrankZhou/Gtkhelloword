@@ -28,10 +28,12 @@ Hwwindow::Hwwindow():m_ps(),m_pg()
 
     m_button_1->signal_clicked().connect(sigc::mem_fun(*this, &Hwwindow::m_button_1_on_clicked));
     m_button_2->signal_clicked().connect(sigc::mem_fun(*this, &Hwwindow::m_button_2_on_clicked));
+    m_treeview->get_selection()->signal_changed().connect(sigc::mem_fun(*this, &Hwwindow::m_treeview_on_selected));
 
     m_mainbox->pack_end(*m_drawing);
     add(*m_mainbox);
     set_title("Polygon");
+    set_default(*m_button_1);
 }
 
 void Hwwindow::setuplistbox()
@@ -58,6 +60,7 @@ Hwwindow::~Hwwindow()
 void Hwwindow::errormsg::poperror() const
 {
     Gtk::MessageDialog dlg(msg);
+    dlg.set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
     dlg.run();
     return;
 }
@@ -79,9 +82,9 @@ void Hwwindow::m_button_1_on_clicked()
             throw errormsg("X and Y must be integer values");
         xx = m_entry_1->get_integer();
         yy = m_entry_2->get_integer();
-        if (xx<=-m_drawing->get_maxw() || xx>=m_drawing->get_maxw())
+        if (xx <= -m_drawing->get_maxw() * m_drawing->get_scale() || xx >= m_drawing->get_maxw()*m_drawing->get_scale())
             throw errormsg("X value not in range");
-        if (yy<=-m_drawing->get_maxh() || yy>=m_drawing->get_maxh())
+        if (yy<=-m_drawing->get_maxh() *m_drawing->get_scale()|| yy>=m_drawing->get_maxh()*m_drawing->get_scale())
             throw errormsg("Y value not in range");
     }
     catch(const errormsg& e)
@@ -98,7 +101,6 @@ void Hwwindow::m_button_1_on_clicked()
         m_pg = m_ps.findboundary();
     }
     m_drawing->redraw();
-    std::cout << '\a';
     return;
 }
 
@@ -128,5 +130,11 @@ void Hwwindow::m_button_2_on_clicked()
         m_pg = m_ps.findboundary();
         m_drawing->redraw();
     }
+    return;
+}
+
+void Hwwindow::m_treeview_on_selected()
+{
+    m_drawing->redraw();
     return;
 }

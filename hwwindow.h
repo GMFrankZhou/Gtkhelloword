@@ -33,13 +33,14 @@ class Hwwindow : public Gtk::ApplicationWindow
             private:
                 std::string msg;
         };
+        Gtk::TreeModel::iterator getselectedpoint(Point &) const;
 
     private:
         void m_button_1_on_clicked();
         void m_button_2_on_clicked();
+        void m_treeview_on_selected();
         void setuplistbox();
         void addpointtolist(const Point &);
-        Gtk::TreeModel::iterator getselectedpoint(Point &) const;
         Gtk::Button *m_button_1;
         Gtk::Button *m_button_2;
         Intentry *m_entry_1;
