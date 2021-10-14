@@ -4,11 +4,11 @@
 #include "canvas.h"
 #include "point.h"
 #include <string>
-
+#include "pointset.h"
 #include <iostream>
 
 
-Hwwindow::Hwwindow()
+Hwwindow::Hwwindow():m_ps()
 {
     //auto builder = Gtk::Builder::create_from_file("ui-mainwindow.glade");
     auto builder = Gtk::Builder::create_from_resource("/unique/prefix/ui-mainwindow.glade");
@@ -89,7 +89,15 @@ void Hwwindow::m_button_1_on_clicked()
         e.poperror();
         return;
     }
-    addpointtolist(Point(xx, yy));
+
+    Point p = Point(xx, yy);
+    if (!m_ps.has(p))
+    {
+        addpointtolist(Point(xx, yy));
+        m_ps.append(Point(xx, yy));
+    }
+    m_drawing->redraw();
+    return;
 }
 
 Gtk::TreeModel::iterator Hwwindow::getselectedpoint(Point &p) const
@@ -101,8 +109,10 @@ Gtk::TreeModel::iterator Hwwindow::getselectedpoint(Point &p) const
         xx = (*selrow)[xcol];
         yy = (*selrow)[ycol];
         p = Point(xx, yy);
+        
     }
-    p = Point(0, 0);
+    else p = Point(0, 0);
+
     return selrow;
 }
 
@@ -112,6 +122,6 @@ void Hwwindow::m_button_2_on_clicked()
     auto selrow = getselectedpoint(p);
     if (selrow) {
         m_liststore->erase(selrow);
-        set_title(std::to_string(p.getx()));
+        m_ps = m_ps - p;
     }
 }
