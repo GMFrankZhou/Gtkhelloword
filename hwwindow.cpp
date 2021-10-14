@@ -97,6 +97,7 @@ void Hwwindow::m_button_1_on_clicked()
         m_ps.append(Point(xx, yy));
         m_pg = m_ps.findboundary();
     }
+    std::cout << m_pg.getpoints();
     m_drawing->redraw();
     return;
 }

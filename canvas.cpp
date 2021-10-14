@@ -28,16 +28,16 @@ void Canvas::drawpoint(const Cairo::RefPtr<Cairo::Context> &cr, const Point &p, 
 
 void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr)
 {
- /*   const Point *pp = parent->m_ps.getpoint();
+    const Point *pp = parent->m_ps.getpoint();
     int count = parent->m_ps.getcount();
     for (int i = 0; i < count; i++)
-        drawpoint(cr,*(pp+i),2);*/
+        drawpoint(cr,*(pp+i),2);
     Pointset ps1 = (parent->m_pg).getpoints();
-    const Point *pp = ps1.getpoint();
-    int count = ps1.getcount();
+    pp = ps1.getpoint();
+    count = ps1.getcount();
     for (int i = 0; i < count; i++)
     {
-        drawpoint(cr,*(pp+i),3);
+        drawpoint(cr,*(pp+i),4);
     }
 }
 
