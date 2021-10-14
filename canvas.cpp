@@ -31,14 +31,26 @@ void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr)
     const Point *pp = parent->m_ps.getpoint();
     int count = parent->m_ps.getcount();
     for (int i = 0; i < count; i++)
-        drawpoint(cr,*(pp+i),2);
+        drawpoint(cr,*(pp+i),3);
     Pointset ps1 = (parent->m_pg).getpoints();
     pp = ps1.getpoint();
     count = ps1.getcount();
     for (int i = 0; i < count; i++)
+        drawpoint(cr,*(pp+i),5);
+    if (count>1)
     {
-        drawpoint(cr,*(pp+i),4);
+        cr->set_line_width(2);
+        cr->set_source_rgb(0.5, 0.5,0);
+        cr->move_to(cx((*pp).getx()), cy((*pp).gety()));
+        for (int i = 1; i < count; i++)
+            {
+                cr->line_to(cx((*(pp + i)).getx()), cy((*(pp + i)).gety()));
+                cr->move_to(cx((*(pp + i)).getx()), cy((*(pp + i)).gety()));
+            }
+        cr->line_to(cx((*pp).getx()), cy((*pp).gety()));
+        cr->stroke();
     }
+    return;
 }
 
 void Canvas::redraw()

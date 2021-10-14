@@ -79,9 +79,9 @@ void Hwwindow::m_button_1_on_clicked()
             throw errormsg("X and Y must be integer values");
         xx = m_entry_1->get_integer();
         yy = m_entry_2->get_integer();
-        if (xx<-m_drawing->get_maxw() || xx>=m_drawing->get_maxw())
+        if (xx<=-m_drawing->get_maxw() || xx>=m_drawing->get_maxw())
             throw errormsg("X value not in range");
-        if (yy<-m_drawing->get_maxh() || yy>=m_drawing->get_maxh())
+        if (yy<=-m_drawing->get_maxh() || yy>=m_drawing->get_maxh())
             throw errormsg("Y value not in range");
     }
     catch(const errormsg& e)
@@ -97,8 +97,8 @@ void Hwwindow::m_button_1_on_clicked()
         m_ps.append(Point(xx, yy));
         m_pg = m_ps.findboundary();
     }
-    std::cout << m_pg.getpoints();
     m_drawing->redraw();
+    std::cout << '\a';
     return;
 }
 

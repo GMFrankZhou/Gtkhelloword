@@ -48,7 +48,7 @@ class Hwwindow : public Gtk::ApplicationWindow
         Gtk::TreeView *m_treeview;
         Glib::RefPtr<Gtk::ListStore> m_liststore;
         Gtk::TreeModel::ColumnRecord m_columns;
-        Gtk::TreeModelColumn<unsigned int> xcol, ycol;
+        Gtk::TreeModelColumn<int> xcol, ycol;
 
         Gtk::Box *m_mainbox;
         Gtk::ScrolledWindow *m_scrolledwindow;
