@@ -8,7 +8,7 @@
 #include <iostream>
 
 
-Hwwindow::Hwwindow():m_ps()
+Hwwindow::Hwwindow():m_ps(),m_pg()
 {
     //auto builder = Gtk::Builder::create_from_file("ui-mainwindow.glade");
     auto builder = Gtk::Builder::create_from_resource("/unique/prefix/ui-mainwindow.glade");
@@ -95,6 +95,7 @@ void Hwwindow::m_button_1_on_clicked()
     {
         addpointtolist(Point(xx, yy));
         m_ps.append(Point(xx, yy));
+        m_pg = m_ps.findboundary();
     }
     m_drawing->redraw();
     return;
@@ -123,5 +124,8 @@ void Hwwindow::m_button_2_on_clicked()
     if (selrow) {
         m_liststore->erase(selrow);
         m_ps = m_ps - p;
+        m_pg = m_ps.findboundary();
+        m_drawing->redraw();
     }
+    return;
 }

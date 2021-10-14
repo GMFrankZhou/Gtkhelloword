@@ -13,6 +13,7 @@
 #include <gtkmm/scrolledwindow.h>
 #include "point.h"
 #include "pointset.h"
+#include "polygon.h"
 class Canvas;
 
 class Hwwindow : public Gtk::ApplicationWindow
@@ -22,7 +23,8 @@ class Hwwindow : public Gtk::ApplicationWindow
         virtual ~Hwwindow();
         Intentry *get_entry_1() const { return m_entry_1; }
         Intentry *get_entry_2() const { return m_entry_2; }
-        Pointset getpointset() const { return m_ps; }
+        Pointset m_ps;
+        Polygon m_pg;
         class errormsg
         {
             public:
@@ -53,7 +55,7 @@ class Hwwindow : public Gtk::ApplicationWindow
         Canvas *m_drawing;        
         Gtk::Label *m_label_1;
         Gtk::Label *m_label_2;
-        Pointset m_ps;
+
 };
 
 #endif

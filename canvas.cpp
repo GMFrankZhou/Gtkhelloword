@@ -2,6 +2,8 @@
 #include "hwwindow.h"
 #include "point.h"
 #include "pointset.h"
+#include "polygon.h"
+
 
 bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -11,7 +13,7 @@ bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     parent->get_entry_2()->set_tooltip_text(std::to_string(-maxh/scale).append(" to ").append(std::to_string(maxh/scale)));
 
     drawaxises(cr);
-    drawpoints(cr, parent->getpointset());
+    drawpoints(cr);
     return true;
 }
 
@@ -24,14 +26,19 @@ void Canvas::drawpoint(const Cairo::RefPtr<Cairo::Context> &cr, const Point &p, 
     cr->fill();
 }
 
-void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr, const Pointset &ps)
+void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr)
 {
-    const Point *pp=ps.getpoint();
-    for (int i = 0; i < ps.getcount();i++)
+ /*   const Point *pp = parent->m_ps.getpoint();
+    int count = parent->m_ps.getcount();
+    for (int i = 0; i < count; i++)
+        drawpoint(cr,*(pp+i),2);*/
+    Pointset ps1 = (parent->m_pg).getpoints();
+    const Point *pp = ps1.getpoint();
+    int count = ps1.getcount();
+    for (int i = 0; i < count; i++)
     {
-        drawpoint(cr,*(pp++),2);
+        drawpoint(cr,*(pp+i),3);
     }
-    
 }
 
 void Canvas::redraw()
