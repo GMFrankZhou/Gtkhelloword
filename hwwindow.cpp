@@ -35,7 +35,7 @@ Hwwindow::Hwwindow():m_ps(),m_pg()
     set_title("Polygon");
     set_default(*m_button_1);
     set_position(Gtk::WIN_POS_CENTER);
-    
+    set_keep_above();
 }
 
 void Hwwindow::setuplistbox()
@@ -101,6 +101,10 @@ void Hwwindow::m_button_1_on_clicked()
         addpointtolist(Point(xx, yy));
         m_ps.append(Point(xx, yy));
         m_pg = m_ps.findboundary();
+    }
+    else
+    {
+        m_liststore->get_path()
     }
     m_drawing->redraw();
     return;
