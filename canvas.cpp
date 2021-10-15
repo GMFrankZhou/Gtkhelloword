@@ -9,15 +9,11 @@ bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
     maxh=(get_allocation().get_height()-10)/2;
     maxw=(get_allocation().get_width()-10)/2;
-    while (parent->m_ps.maxx()>maxw*scale ||parent->m_ps.maxy()>maxh*scale)
-        scale*=2;
+    while (parent->m_ps.maxx()>maxw/scale ||parent->m_ps.maxy()>maxh/scale)
+        scale/=2;
 
-    parent->get_entry_1()->set_tooltip_text(std::to_string(-maxw*scale).append(" to ").append(std::to_string(maxw*scale)));
-    parent->get_entry_2()->set_tooltip_text(std::to_string(-maxh*scale).append(" to ").append(std::to_string(maxh*scale)));
-
-
-
-
+    parent->get_entry_1()->set_tooltip_text(std::to_string(int(-maxw/scale)).append(" to ").append(std::to_string(int(maxw/scale))));
+    parent->get_entry_2()->set_tooltip_text(std::to_string(int(-maxh/scale)).append(" to ").append(std::to_string(int(maxh/scale))));
 
     drawaxises(cr);
     drawpoints(cr);
@@ -29,7 +25,7 @@ bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 void Canvas::drawpoint(const Cairo::RefPtr<Cairo::Context> &cr, const Point &p,const double r,const double g,const double b, const int size)
 {
     cr->set_source_rgb(r, g, b);
-    cr->arc(cx(p.getx() / scale), cy(p.gety() / scale), size, 0, 2 * M_PI);
+    cr->arc(cx(p.getx() * scale), cy(p.gety() * scale), size, 0, 2 * M_PI);
     cr->fill();
 }
 
@@ -38,28 +34,28 @@ void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr)
     const Point *pp = parent->m_ps.getpoint();
     int count = parent->m_ps.getcount();
     for (int i = 0; i < count; i++)
-        drawpoint(cr,*(pp+i),0,0,0.5,3);
+        drawpoint(cr,*(pp+i),0,0,1,3);
     Pointset ps1 = (parent->m_pg).getpoints();
     pp = ps1.getpoint();
     count = ps1.getcount();
     if (count>1)
     {
         cr->set_line_width(2);
-        cr->set_source_rgb(1,1,0.5);
-        cr->move_to(cx((*pp).getx()/ scale), cy((*pp).gety()/ scale));
+        cr->set_source_rgb(1,1,0);
+        cr->move_to(cx((*pp).getx()* scale), cy((*pp).gety()* scale));
         for (int i = 1; i < count; i++)
             {
-                cr->line_to(cx((*(pp + i)).getx()/ scale), cy((*(pp + i)).gety()/ scale));
-                cr->move_to(cx((*(pp + i)).getx()/ scale), cy((*(pp + i)).gety()/ scale));
+                cr->line_to(cx((*(pp + i)).getx()* scale), cy((*(pp + i)).gety()* scale));
+                cr->move_to(cx((*(pp + i)).getx()* scale), cy((*(pp + i)).gety()* scale));
             }
-        cr->line_to(cx((*pp).getx()/ scale), cy((*pp).gety()/ scale));
+        cr->line_to(cx((*pp).getx()* scale), cy((*pp).gety()* scale));
         cr->stroke();
     }
     for (int i = 0; i < count; i++)
-        drawpoint(cr,*(pp+i),0,0,0.5,5);
+        drawpoint(cr,*(pp+i),0,1,0,5);
     Point p;
     auto selrow = parent->getselectedpoint(p);
-    if (selrow) drawpoint(cr,p,0,0.5,0,6);
+    if (selrow) drawpoint(cr,p,0.8,0,0,7);
     return;
 }
 
@@ -76,7 +72,7 @@ void Canvas::drawaxises(const Cairo::RefPtr<Cairo::Context> &cr)
     cr->fill();
 
     cr->set_line_width(2);
-    cr->set_source_rgb(0.5, 0, 0);
+    cr->set_source_rgb(0, 0, 0);
     cr->set_line_cap(Cairo::LINE_CAP_ROUND);
 
 //draw two lines
@@ -127,51 +123,51 @@ void Canvas::drawaxises(const Cairo::RefPtr<Cairo::Context> &cr)
     font.set_absolute_size(8);  
 //x axis texts
     cr->move_to(cx(-maxw * 3 / 4-12), cy(-1));
-    auto layout = create_pango_layout((std::to_string(-maxw / 4 * 3 * scale)));
+    auto layout = create_pango_layout((std::to_string(int(-maxw / 4 * 3 / scale))));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(-maxw  / 2-12), cy(-1));
-    layout->set_text(std::to_string(-maxw /2 * scale));
+    layout->set_text(std::to_string(int(-maxw /2 / scale)));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(-maxw  / 4-12), cy(-1));
-    layout->set_text(std::to_string(-maxw /4 * scale));
+    layout->set_text(std::to_string(int(-maxw /4 / scale)));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(maxw  / 4-12), cy(-1));
-    layout->set_text(std::to_string(maxw /4 * scale));
+    layout->set_text(std::to_string(int(maxw /4 / scale)));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(maxw  / 2-12), cy(-1));
-    layout->set_text(std::to_string(maxw /2 * scale));
+    layout->set_text(std::to_string(int(maxw /2 / scale)));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(maxw * 3 / 4-12), cy(-1));
-    layout->set_text(std::to_string(maxw / 4 * 3 * scale));
+    layout->set_text(std::to_string(int(maxw / 4 * 3 / scale)));
     layout->show_in_cairo_context(cr);
 //y axix texts
     int tw, th;
-    layout->set_text(std::to_string(maxh /4*3 * scale));
+    layout->set_text(std::to_string(int(maxh /4*3 / scale)));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(maxh * 3 / 4+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(maxh /2 * scale));
+    layout->set_text(std::to_string(int(maxh /2 / scale)));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(maxh / 2+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(maxh /4 * scale));
+    layout->set_text(std::to_string(int(maxh /4 / scale)));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(maxh / 4+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(-maxh /4 * scale));
+    layout->set_text(std::to_string(int(-maxh /4 / scale)));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(-maxh / 4+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(-maxh /2 * scale));
+    layout->set_text(std::to_string(int(-maxh /2 / scale)));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(-maxh / 2+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(-maxh /4*3 * scale));
+    layout->set_text(std::to_string(int(-maxh /4*3 / scale)));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(-maxh / 4*3+6));
     layout->show_in_cairo_context(cr);
@@ -181,7 +177,8 @@ Canvas::Canvas(Hwwindow *p):parent(p)
 {
     property_height_request() = 700;
     property_width_request() = 700;
-    scale = 1;
+    scale = 8.0;
+
 }
 
 int Canvas::cx(const int x)

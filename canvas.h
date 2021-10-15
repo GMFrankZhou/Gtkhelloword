@@ -24,7 +24,7 @@ class Canvas : public Gtk::DrawingArea
         void drawpoints(const Cairo::RefPtr<Cairo::Context> &);
         virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &);
         Hwwindow *parent;
-        int scale;
+        double scale;
 };
 
 #endif
