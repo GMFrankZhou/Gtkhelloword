@@ -63,6 +63,7 @@ void Hwwindow::errormsg::poperror() const
 {
     Gtk::MessageDialog dlg(msg);
     dlg.set_position(Gtk::WIN_POS_MOUSE);
+    dlg.set_keep_above();
     dlg.run();
     return;
 }
@@ -104,7 +105,7 @@ void Hwwindow::m_button_1_on_clicked()
     }
     else
     {
-        m_liststore->get_path()
+       
     }
     m_drawing->redraw();
     return;
