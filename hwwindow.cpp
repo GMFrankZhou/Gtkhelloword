@@ -34,6 +34,8 @@ Hwwindow::Hwwindow():m_ps(),m_pg()
     add(*m_mainbox);
     set_title("Polygon");
     set_default(*m_button_1);
+    set_position(Gtk::WIN_POS_CENTER);
+    
 }
 
 void Hwwindow::setuplistbox()
@@ -60,7 +62,7 @@ Hwwindow::~Hwwindow()
 void Hwwindow::errormsg::poperror() const
 {
     Gtk::MessageDialog dlg(msg);
-    dlg.set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
+    dlg.set_position(Gtk::WIN_POS_MOUSE);
     dlg.run();
     return;
 }
