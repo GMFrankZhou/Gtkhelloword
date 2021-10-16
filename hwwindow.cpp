@@ -102,8 +102,8 @@ void Hwwindow::m_button_1_on_clicked()
         addpointtolist(Point(xx, yy));
         m_ps.append(Point(xx, yy));
         m_pg = m_ps.findboundary();
-        if (m_ps.maxy()*2+10>800) m_drawing->property_height_request() = m_ps.maxy()*2+10;
-        if (m_ps.maxx()*2+10>800) m_drawing->property_width_request() = m_ps.maxx()*2+10;
+        m_drawing->property_height_request() = m_ps.maxy()*2+10>800?m_ps.maxy()*2+10:800;    
+        m_drawing->property_width_request() = (m_ps.maxx()*2+10>800)?m_ps.maxx()*2+10:800;
     }
     else
     {
@@ -112,7 +112,6 @@ void Hwwindow::m_button_1_on_clicked()
             if ((*ptr)[xcol]==xx && (*ptr)[ycol]==yy)
                 m_treeview->get_selection()->select(ptr);
     }
-    std::cout << m_ps;
     m_drawing->redraw();
     return;
 }
@@ -141,8 +140,8 @@ void Hwwindow::m_button_2_on_clicked()
         m_liststore->erase(selrow);
         m_ps = m_ps - p;
         m_pg = m_ps.findboundary();
-        if (m_ps.maxy()*2+10>800) m_drawing->property_height_request() = m_ps.maxy()*2+10;
-        if (m_ps.maxx()*2+10>800) m_drawing->property_width_request() = m_ps.maxx()*2+10;
+        m_drawing->property_height_request() = m_ps.maxy()*2+10>800?m_ps.maxy()*2+10:800;    
+        m_drawing->property_width_request() = (m_ps.maxx()*2+10>800)?m_ps.maxx()*2+10:800;
         m_drawing->redraw();
     }
     return;
