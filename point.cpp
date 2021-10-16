@@ -2,13 +2,10 @@
 #include "point.h"
 using namespace std;
 
-
-
 ostream & operator << (ostream & os, const Point & p)
 {
     return os <<"("<<p.x<<","<<p.y<<")";
 }
-
 
 istream & operator >> (istream & is, Point & p)
 {

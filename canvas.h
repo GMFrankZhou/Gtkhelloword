@@ -23,8 +23,9 @@ class Canvas : public Gtk::DrawingArea
         void drawpoint(const Cairo::RefPtr<Cairo::Context> &, const Point &,const double,const double,const double,const int);
         void drawpoints(const Cairo::RefPtr<Cairo::Context> &);
         virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &);
+        virtual bool on_scroll_event(GdkEventScroll *);
         Hwwindow *parent;
-        double scale;
+        int scale;
 };
 
 #endif

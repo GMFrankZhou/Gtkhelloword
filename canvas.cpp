@@ -10,10 +10,12 @@ bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     maxh=(get_allocation().get_height()-10)/2;
     maxw=(get_allocation().get_width()-10)/2;
     while (parent->m_ps.maxx()>maxw/scale ||parent->m_ps.maxy()>maxh/scale)
-        scale/=2;
+        if (scale>1)
+            scale -= 1;
+        else break;
 
-    parent->get_entry_1()->set_tooltip_text(std::to_string(int(-maxw/scale)).append(" to ").append(std::to_string(int(maxw/scale))));
-    parent->get_entry_2()->set_tooltip_text(std::to_string(int(-maxh/scale)).append(" to ").append(std::to_string(int(maxh/scale))));
+    parent->get_entry_1()->set_tooltip_text(std::to_string(-maxw/scale).append(" to ").append(std::to_string(maxw/scale)));
+    parent->get_entry_2()->set_tooltip_text(std::to_string(-maxh/scale).append(" to ").append(std::to_string(maxh/scale)));
 
     drawaxises(cr);
     drawpoints(cr);
@@ -123,51 +125,51 @@ void Canvas::drawaxises(const Cairo::RefPtr<Cairo::Context> &cr)
     font.set_absolute_size(8);  
 //x axis texts
     cr->move_to(cx(-maxw * 3 / 4-12), cy(-1));
-    auto layout = create_pango_layout((std::to_string(int(-maxw / 4 * 3 / scale))));
+    auto layout = create_pango_layout((std::to_string(-maxw / 4 * 3 / scale)));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(-maxw  / 2-12), cy(-1));
-    layout->set_text(std::to_string(int(-maxw /2 / scale)));
+    layout->set_text(std::to_string(-maxw /2 / scale));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(-maxw  / 4-12), cy(-1));
-    layout->set_text(std::to_string(int(-maxw /4 / scale)));
+    layout->set_text(std::to_string(-maxw /4 / scale));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(maxw  / 4-12), cy(-1));
-    layout->set_text(std::to_string(int(maxw /4 / scale)));
+    layout->set_text(std::to_string(maxw /4 / scale));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(maxw  / 2-12), cy(-1));
-    layout->set_text(std::to_string(int(maxw /2 / scale)));
+    layout->set_text(std::to_string(maxw /2 / scale));
     layout->show_in_cairo_context(cr);
     cr->move_to(cx(maxw * 3 / 4-12), cy(-1));
-    layout->set_text(std::to_string(int(maxw / 4 * 3 / scale)));
+    layout->set_text(std::to_string(maxw / 4 * 3 / scale));
     layout->show_in_cairo_context(cr);
 //y axix texts
     int tw, th;
-    layout->set_text(std::to_string(int(maxh /4*3 / scale)));
+    layout->set_text(std::to_string(maxh /4*3 / scale));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(maxh * 3 / 4+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(int(maxh /2 / scale)));
+    layout->set_text(std::to_string(maxh /2 / scale));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(maxh / 2+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(int(maxh /4 / scale)));
+    layout->set_text(std::to_string(maxh /4 / scale));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(maxh / 4+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(int(-maxh /4 / scale)));
+    layout->set_text(std::to_string(-maxh /4 / scale));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(-maxh / 4+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(int(-maxh /2 / scale)));
+    layout->set_text(std::to_string(-maxh /2 / scale));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(-maxh / 2+6));
     layout->show_in_cairo_context(cr);
 
-    layout->set_text(std::to_string(int(-maxh /4*3 / scale)));
+    layout->set_text(std::to_string(-maxh /4*3 / scale));
     layout->get_pixel_size(tw,th);
     cr->move_to(cx(-tw-1), cy(-maxh / 4*3+6));
     layout->show_in_cairo_context(cr);
@@ -175,10 +177,10 @@ void Canvas::drawaxises(const Cairo::RefPtr<Cairo::Context> &cr)
 
 Canvas::Canvas(Hwwindow *p):parent(p)
 {
-    property_height_request() = 700;
-    property_width_request() = 700;
-    scale = 8.0;
-
+    property_height_request() = 800;
+    property_width_request() = 800;
+    add_events(Gdk::SCROLL_MASK);
+    scale = 8;
 }
 
 int Canvas::cx(const int x)
@@ -189,4 +191,20 @@ int Canvas::cx(const int x)
 int Canvas::cy(const int y)
 {
     return maxh+5 - y;
+}
+
+bool Canvas::on_scroll_event(GdkEventScroll *e)
+{
+    if (e->direction == GDK_SCROLL_UP)
+        if (parent->m_ps.maxx()<=maxw/(scale+1)&& parent->m_ps.maxy()<=maxh/(scale+1) && scale<16)
+        {
+            scale++;
+            redraw();
+        }
+    if (e->direction == GDK_SCROLL_DOWN && scale > 1)
+    {
+        scale--;
+        redraw();
+    }
+    return false;
 }
