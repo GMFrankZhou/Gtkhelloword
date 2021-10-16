@@ -170,14 +170,10 @@ void Pointset::clear()
 
 Polygon Pointset::findboundary() const
 {
-    if (count<=1) 
-    {
-        Polygon pg;
-        return pg;
-    }
-    if (count==2)
+    if (count<=2)
     {
         Polygon pg(*this);
+        int i = 1;
         return pg;
     }
     Point p=*getpoint();

@@ -50,8 +50,8 @@ void Hwwindow::setuplistbox()
     m_treeview->append_column("Y", ycol);
     m_treeview->get_column(0)->set_fixed_width(20);
     m_treeview->get_column(1)->set_fixed_width(190);
-    m_treeview->get_column(0)->set_alignment(0.5);
     m_treeview->get_column(1)->set_alignment(0.5);
+    m_treeview->get_column(2)->set_alignment(0.5);
     m_scrolledwindow->add(*m_treeview);
     m_treeview->show();
 }
@@ -74,6 +74,7 @@ void Hwwindow::errormsg::poperror() const
 void Hwwindow::addpointtolist(const Point &p)
 {
     auto newrow = m_liststore->append();
+    (*newrow)[ind]=" ";
     (*newrow)[xcol]=p.getx();
     (*newrow)[ycol]=p.gety();
     return;
@@ -110,9 +111,9 @@ void Hwwindow::m_button_1_on_clicked()
         auto rows = m_liststore->children();
         for (auto ptr = rows.begin(); ptr!=rows.end();ptr++)
             if (m_pg.getpoints().has(Point((*ptr)[xcol],(*ptr)[ycol])))
-                (*ptr)[ind] = '*';
+                (*ptr)[ind] = "*";
             else
-                (*ptr)[ind] = ' ';
+                (*ptr)[ind] = " ";
     }
     else
     {
@@ -154,9 +155,9 @@ void Hwwindow::m_button_2_on_clicked()
         auto rows = m_liststore->children();
         for (auto ptr = rows.begin(); ptr!=rows.end();ptr++)
             if (m_pg.getpoints().has(Point((*ptr)[xcol],(*ptr)[ycol])))
-                (*ptr)[ind] = '*';
+                (*ptr)[ind] = "*";
             else
-                (*ptr)[ind] = ' ';
+                (*ptr)[ind] = " ";
         m_drawing->redraw();
     }
     return;

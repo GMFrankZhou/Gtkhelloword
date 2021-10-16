@@ -50,7 +50,7 @@ class Hwwindow : public Gtk::ApplicationWindow
         Glib::RefPtr<Gtk::ListStore> m_liststore;
         Gtk::TreeModel::ColumnRecord m_columns;
         Gtk::TreeModelColumn<int> xcol, ycol;
-        Gtk::TreeModelColumn<char> ind;
+        Gtk::TreeModelColumn<std::string> ind;
 
         Gtk::Box *m_mainbox;
         Gtk::ScrolledWindow *m_scrolledwindow;

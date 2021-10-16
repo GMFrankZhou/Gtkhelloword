@@ -42,10 +42,18 @@ Polygon::Polygon(const Pointset &ps)
 {
     m_line=NULL;
     int psc=ps.getcount();
-    if (psc<=1) 
+    if (psc==0) 
     {
         m_line=NULL;
+        m_count=0;
         m_ps=Pointset();
+        return;
+    }
+    if (psc==1)
+    {
+        m_line=NULL;
+        m_count = 0;
+        m_ps = ps;
         return;
     }
     if (psc==2)
