@@ -40,13 +40,16 @@ Hwwindow::Hwwindow():m_ps(),m_pg()
 
 void Hwwindow::setuplistbox()
 {
+    m_columns.add(ind);
     m_columns.add(xcol);
     m_columns.add(ycol);
     m_liststore = Gtk::ListStore::create(m_columns);
     m_treeview = new Gtk::TreeView(m_liststore);
+    m_treeview->append_column(" ", ind);
     m_treeview->append_column("X", xcol);
     m_treeview->append_column("Y", ycol);
-    m_treeview->get_column(0)->set_fixed_width(190);
+    m_treeview->get_column(0)->set_fixed_width(20);
+    m_treeview->get_column(1)->set_fixed_width(190);
     m_treeview->get_column(0)->set_alignment(0.5);
     m_treeview->get_column(1)->set_alignment(0.5);
     m_scrolledwindow->add(*m_treeview);
@@ -104,6 +107,12 @@ void Hwwindow::m_button_1_on_clicked()
         m_pg = m_ps.findboundary();
         m_drawing->property_height_request() = m_ps.maxy()*2+10>800?m_ps.maxy()*2+10:800;    
         m_drawing->property_width_request() = (m_ps.maxx()*2+10>800)?m_ps.maxx()*2+10:800;
+        auto rows = m_liststore->children();
+        for (auto ptr = rows.begin(); ptr!=rows.end();ptr++)
+            if (m_pg.getpoints().has(Point((*ptr)[xcol],(*ptr)[ycol])))
+                (*ptr)[ind] = '*';
+            else
+                (*ptr)[ind] = ' ';
     }
     else
     {
@@ -142,6 +151,12 @@ void Hwwindow::m_button_2_on_clicked()
         m_pg = m_ps.findboundary();
         m_drawing->property_height_request() = m_ps.maxy()*2+10>800?m_ps.maxy()*2+10:800;    
         m_drawing->property_width_request() = (m_ps.maxx()*2+10>800)?m_ps.maxx()*2+10:800;
+        auto rows = m_liststore->children();
+        for (auto ptr = rows.begin(); ptr!=rows.end();ptr++)
+            if (m_pg.getpoints().has(Point((*ptr)[xcol],(*ptr)[ycol])))
+                (*ptr)[ind] = '*';
+            else
+                (*ptr)[ind] = ' ';
         m_drawing->redraw();
     }
     return;
