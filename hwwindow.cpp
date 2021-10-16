@@ -85,9 +85,9 @@ void Hwwindow::m_button_1_on_clicked()
             throw errormsg("X and Y must be integer values");
         xx = m_entry_1->get_integer();
         yy = m_entry_2->get_integer();
-        if (xx <= -m_drawing->get_maxw() / m_drawing->get_scale() || xx >= m_drawing->get_maxw()/m_drawing->get_scale())
+        if (xx < -m_drawing->get_maxw() / m_drawing->get_scale() || xx > m_drawing->get_maxw()/m_drawing->get_scale())
             throw errormsg("X value not in range");
-        if (yy<=-m_drawing->get_maxh() / m_drawing->get_scale()|| yy>=m_drawing->get_maxh()/m_drawing->get_scale())
+        if (yy<-m_drawing->get_maxh() / m_drawing->get_scale()|| yy>m_drawing->get_maxh()/m_drawing->get_scale())
             throw errormsg("Y value not in range");
     }
     catch(const errormsg& e)
