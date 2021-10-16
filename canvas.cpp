@@ -29,6 +29,7 @@ void Canvas::drawpoint(const Cairo::RefPtr<Cairo::Context> &cr, const Point &p,c
     cr->set_source_rgb(r, g, b);
     cr->arc(cx(p.getx() * scale), cy(p.gety() * scale), size, 0, 2 * M_PI);
     cr->fill();
+
 }
 
 void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr)
@@ -43,7 +44,7 @@ void Canvas::drawpoints(const Cairo::RefPtr<Cairo::Context> &cr)
     if (count>1)
     {
         cr->set_line_width(2);
-        cr->set_source_rgb(1,1,0);
+        cr->set_source_rgb(0,0,1);
         cr->move_to(cx((*pp).getx()* scale), cy((*pp).gety()* scale));
         for (int i = 1; i < count; i++)
             {
