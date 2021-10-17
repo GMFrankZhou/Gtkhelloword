@@ -19,6 +19,7 @@ bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
     drawaxises(cr);
     drawpoints(cr);
+
     return true;
 }
 
@@ -181,6 +182,8 @@ Canvas::Canvas(Hwwindow *p):parent(p)
     property_height_request() = 800;
     property_width_request() = 800;
     add_events(Gdk::SCROLL_MASK);
+    add_events(Gdk::BUTTON_PRESS_MASK);
+    add_events(Gdk::POINTER_MOTION_MASK);
     scale = 8;
 }
 
@@ -207,5 +210,18 @@ bool Canvas::on_scroll_event(GdkEventScroll *e)
         scale--;
         redraw();
     }
+    return false;
+
+}
+
+bool Canvas::on_button_press_event(GdkEventButton *e)
+{
+    parent->set_title(std::to_string(e->x).append(std::to_string(e->y)));
+    return false;
+}
+
+bool Canvas::on_motion_notify_event(GdkEventMotion *e)
+{
+    parent->set_title(std::to_string(e->x).append(std::to_string(e->y)));
     return false;
 }
