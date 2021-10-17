@@ -39,6 +39,7 @@ class Hwwindow : public Gtk::ApplicationWindow
         void m_button_1_on_clicked();
         void m_button_2_on_clicked();
         void m_treeview_on_selected();
+        bool on_timeout();
         void setuplistbox();
         void addpointtolist(const Point &);
         Gtk::Button *m_button_1;
@@ -57,7 +58,8 @@ class Hwwindow : public Gtk::ApplicationWindow
         Canvas *m_drawing;        
         Gtk::Label *m_label_1;
         Gtk::Label *m_label_2;
-
+        int timer;
+        sigc::connection mytimer;
 };
 
 #endif

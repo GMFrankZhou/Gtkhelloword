@@ -6,6 +6,7 @@
 #include <string>
 #include "pointset.h"
 #include <iostream>
+#include <glibmm/main.h>
 
 
 Hwwindow::Hwwindow():m_ps(),m_pg()
@@ -36,6 +37,7 @@ Hwwindow::Hwwindow():m_ps(),m_pg()
     set_default(*m_button_1);
     set_position(Gtk::WIN_POS_CENTER);
     set_keep_above();
+    timer = 0; 
 }
 
 void Hwwindow::setuplistbox()
@@ -123,6 +125,10 @@ void Hwwindow::m_button_1_on_clicked()
                 m_treeview->get_selection()->select(ptr);
     }
     m_drawing->redraw();
+    if (mytimer.connected())
+        mytimer.disconnect();
+    else 
+        mytimer=Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hwwindow::on_timeout), 1000);
     return;
 }
 
@@ -160,6 +166,7 @@ void Hwwindow::m_button_2_on_clicked()
                 (*ptr)[ind] = " ";
         m_drawing->redraw();
     }
+
     return;
 }
 
@@ -167,4 +174,15 @@ void Hwwindow::m_treeview_on_selected()
 {
     m_drawing->redraw();
     return;
+}
+
+bool Hwwindow::on_timeout()
+{
+    set_title(std::to_string(timer++));
+    return true;
+    // if (timer==10)
+    // {
+    //      return false;
+    //  }
+    //     return true;
 }
